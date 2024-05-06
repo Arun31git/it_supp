@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            background-color: #f4f4f4;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .section {
+            width: calc(33.33% - 20px);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: fit-content;
+            position: relative;
+        }
+        #temp{
+            display: none;
+        }
+        .section-heading {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .ticket {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            height: 50px;
+            
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #577fab;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .buttondiv {
+            display: flex;
+            justify-content: center;
+            
+              margin: -9px -3px 11px 216px;
+    padding: 1px 2px;
+            background-color: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+           
+           
+        }
+        #btn3 {
+            /* margin-top: 10rem; */
+            position: absolute;
+            bottom: -48px;
+            left: 18px;
+        } 
+        #btn2{
+            position: absolute;
+            
+            bottom:0 ;
+        }
+    
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .home-text06 {
+           
+            color:rgb(255, 252, 252);
+            width: 69px;
+            
+            font-size: 13px;
+            font-style: normal;
+            text-align: center;
+            font-family: "Fira Sans";
+            font-weight: 600;
+            border-color: var(--dl-color-theme-neutral-dark);
+            border-style: hidden;
+            border-width: 1px;
+            border-radius: 2px;
+            letter-spacing: 0.5px;
+            background-color: rgb(209, 81, 10);
+        }
+        .home-text12 {
+            top: 41px;
+            left: 14px;
+            color:rgb(255, 252, 252);
+            width: 80px;
+            
+            font-size: 13px;
+            font-style: normal;
+            text-align: center;
+            font-family: "Fira Sans";
+            font-weight: 600;
+            border-color: var(--dl-color-theme-neutral-dark);
+            border-style: hidden;
+            border-width: 1px;
+            border-radius: 2px;
+            letter-spacing: 0.5px;
+            background-color: green;
+        }
+        .home-text09 {
+            top: -71px;
+            left: 13px;
+            width: var(--dl-size-size-small);
+            
+
+           font-size: 13px;
+            font-style: normal;
+            text-align: center;
+            font-family: "Fira Sans";
+            font-weight: 600;
+            border-color: var(--dl-color-theme-neutral-dark);
+            border-style: hidden;
+            border-width: 1px;
+            border-radius: 2px;
+            letter-spacing: 0.5px;
+            background-color: #8ea6ae;
+        }
+       
+        .dialog {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .dialog-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        #card3{
+            height: 100%;
+            position: relative;
+        
+        }
+        #card2{
+            height: 100%;
+        }
+        #card1{
+            height: 100%;
+        }
+        
+        </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Pending Tickets Section -->
+<div class="section">
+            <div class="main">
+                <h2 class="section-heading">Pending</h2>
+            </div>
+            <div class="card">
+               
+                
+                    <% pendingTickets.forEach(ticket=> { %>
+                        <div class="ticket">
+                            <%= ticket.key1 %> - <%= ticket.requestType %><br>
+                            <span id="status_div" class="home-text09">Open</span>
+                            <div class="buttondiv" id="btn1"><button type="button" onclick="showTicketDetails('<%= ticket.key1 %>')">View Details</button></div>
+                        </div>
+                        <%});%>
+
+
+            
+            </div>
+        </div>
+
+        <!-- In Progress Tickets Section -->
+        <div class="section">
+            <div class="main">
+                <h2 class="section-heading">In Progress</h2>
+            </div>
+            <div class="card">
+                
+                    <% inProgressTickets.forEach(ticket=> { %>
+                        <div class="ticket">
+                            <%= ticket.key1 %> - <%= ticket.requestType %><br>
+                            <span id="status_div" class="home-text06">Progress</span>
+                            <div class="buttondiv" id="btn1"><button type="button" onclick="showTicketDetails('<%= ticket.key1 %>')">View Details</button></div>
+                        </div>
+                        <%});%>
+                    
+
+           
+            </div>
+        </div>
+
+        <!-- Completed Tickets Section -->
+       <div class="section">
+            <div class="main">
+                <h2 class="section-heading">Completed</h2>
+            </div>
+            <div class="card">
+                
+                  
+                    <% completedTickets.forEach(ticket=> { %>
+                        <div class="ticket">
+                            <%= ticket.key1 %> - <%= ticket.requestType %><br>
+                            <span id="status_div" class="home-text12">Submitted</span>
+                            <div class="buttondiv" id="btn3 "><button type="button" onclick="showTicketDetails('<%= ticket.key1 %>')">View Details</button></div>
+                        </div>
+                        
+                        <%});%>
+
+
+
+                   
+
+                <!-- <div class="buttondiv" id="btn3"><button type="submit">View Details</button></div> -->
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="dialog" id="details-dialog">
+        <div class="dialog-content">
+            <span class="close" onclick="closeDialog()">&times;</span>
+            <div id="ticket-details"></div>
+        </div>
+    </div>
+    <!-- Script to handle button click -->
+    <script>
+        
+        function showTicketDetails(ticketKey) {
+            // Replace this with your logic to fetch ticket details based on ticketKey
+            var ticketDetails = {
+                key: ticketKey,
+                // Add more ticket details here
+            };
+
+            var dialogContent = `
+                <p><strong>Key:</strong> ${ticketDetails.key}</p>
+                <!-- Add more ticket details here -->
+            `;
+            var ticketDetailsDiv = document.getElementById("ticket-details");
+            ticketDetailsDiv.innerHTML = dialogContent;
+
+            var dialog = document.getElementById("details-dialog");
+            dialog.style.display = "block";
+        }
+        
+        function closeDialog() {
+            var dialog = document.getElementById("details-dialog");
+            dialog.style.display = "none";
+        }
+        
+        window.onclick = function(event) {
+            var dialog = document.getElementById("details-dialog");
+            if (event.target == dialog) {
+                dialog.style.display = "none";
+            }
+        }
+        function viewDetails(ticketId) {
+            window.location.href = '/ticket-details?id=' + ticketId;
+        }
+        function displayView(){
+            document.getElementById("card2").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>
