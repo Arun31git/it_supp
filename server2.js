@@ -79,17 +79,17 @@ app.get('/admin-page', (req, res) => {
                     res.status(500).send('Internal Server Error');
                     return;
                 }
-
-                res.render('adash4', {
-                    pendingTickets: pendingTickets,
-                    completedTickets: completedTickets,
-                    inProgressTickets: inProgressTickets
-                });
-                // res.render('adash3',{
+                console.log(completedTickets);
+                // res.render('adash4', {
                 //     pendingTickets: pendingTickets,
                 //     completedTickets: completedTickets,
-                //     inProgressTickets: inProgressTickets,
+                //     inProgressTickets: inProgressTickets
                 // });
+                res.render('adash3',{
+                    pendingTickets1: pendingTickets,
+                    completedTickets1: completedTickets,
+                    inProgressTickets1: inProgressTickets,
+                });
             });
         });
     });

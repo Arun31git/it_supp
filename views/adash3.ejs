@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard2</title>
     <style>
         * {
             background-color: #f4f4f4;
@@ -216,8 +216,8 @@
             </div>
             <div class="card">
 
-
-                <% completedTickets.forEach(ticket=> { %>
+               
+                <% completedTickets1.forEach(ticket=> { %>
                     <div class="ticket">
                         <%= ticket.key1 %> - <%= ticket.requestType %><br>
                                 <span id="status_div" class="home-text12">Submitted</span>
@@ -242,20 +242,20 @@
 
     <!-- Script to handle button click and dialog -->
     <script>
-        
+        const ct =completedTickets1;
         
         function showTicketDetails(ticketKey) {
-            var tkey1 =  completedTickets.forEach(ticket=> { 
-                alert("success");
-                 alert(ticket.key1)   
-                 alert("again");
-                });
+        //     var tkey1 =  completedTickets1forEach(ticket=> { 
+        //         alert("success");
+        //          alert(ticket.key1)   
+        //          alert("again");
+        //         });
 
-         if(tKey1.key1==ticketKey){
-                alert("Aagyi VAlue");
-         }
+        //  if(tKey1.key1==ticketKey){
+        //         console.log("Aagyi VAlue");
+        //  }
 
-         var ticket = completedTickets.find(ticket => ticket.key1 === ticketKey);
+         var ticket = ct.find(ticket => ticket.key1 === ticketKey);
             alert(ticket);
             if (ticket) {
                 var dialogContent = `
