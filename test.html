@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="post">
+        <div class="row">
+            <input type="hidden" name="id" value="${id}">
+            <div class="col-md-3 form-group">
+                <label for="">Key :</label>
+                <input type="text" name="key1" value="${tK}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Request Type :</label>
+                <input type="text" name="requestType" value="${rT}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Summary :</label>
+                <input type="text" name="summary" value="${sM}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Reporter :</label>
+                <input type="text" name="reporter" value="${rP}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Assignee :</label>
+                <input type="text" name="assignee" value="${aS}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Urgency :</label>
+                <input type="text" name="assignee" value="${uR}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Time :</label>
+                <input type="text" name="time" value="${tM}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">For the Next :</label>
+                <select name="status" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                    <option selected>Select the Process</option>
+                    <option value="1">Pending</option>
+                    <option value="2">Progress</option>
+                    <option value="0">Complete</option>
+                  </select>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Next</button>
+                </div>
+            </div>
+    </form>
+</body>
+</html>

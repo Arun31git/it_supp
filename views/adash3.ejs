@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard2</title>
+    <title>Admin Dashboard</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script> -->
     <style>
         * {
             background-color: #f4f4f4;
@@ -128,7 +133,7 @@
             border-width: 1px;
             border-radius: 2px;
             letter-spacing: 0.5px;
-            background-color: green;
+            background-color: rgb(19, 146, 19);
         }
         .home-text09 {
             top: -71px;
@@ -201,27 +206,53 @@
     <div class="dashboard">
         <!-- Pending Tickets Section -->
         <div class="section">
-            <!-- Content for Pending Tickets Section -->
+            <div class="main">
+                <h2 class="section-heading">Pending</h2>
+            </div>
+            <div class="card">
+                <% pendingTickets.forEach(ticket=> { %>
+                    <div class="ticket">
+                        <%= ticket.key1 %> - <%= ticket.requestType %><br>
+                                <span id="status_div" class="home-text09">Open</span>
+                                <div class="buttondiv" id="btn1 "><button type="button" onclick="showTicketDetails('<%= ticket.id %>','<%= ticket.key1 %>','<%= ticket.requestType %>','<%= ticket.summary %>','<%= ticket.reporter %>','<%= ticket.assignee %>','<%= ticket.urgency%>','<%= ticket.time %>','<%= ticket.status %>')">View Details<%console.log(ticket.key1);%></button></div>
+                    </div>
+                    <%});%>
+            </div>
         </div>
 
         <!-- In Progress Tickets Section -->
         <div class="section">
-            <!-- Content for In Progress Tickets Section -->
+            <div class="main">
+                <h2 class="section-heading">In Progress</h2>
+            </div>
+            <div class="card">
+
+                <% inProgressTickets.forEach(ticket=> { %>
+                    <div class="ticket">
+                        <%= ticket.key1 %> - <%= ticket.requestType %><br>
+                                <span id="status_div" class="home-text06">Progress</span>
+                                <div class="buttondiv" id="btn1 "><button type="button" onclick="showTicketDetails('<%= ticket.id %>','<%= ticket.key1 %>','<%= ticket.requestType %>','<%= ticket.summary %>','<%= ticket.reporter %>','<%= ticket.assignee %>','<%= ticket.urgency%>','<%= ticket.time %>','<%= ticket.status %>')">View Details<%console.log(ticket.key1);%></button></div>
+                    </div>
+                    <%});%>
+
+
+
+            </div>
         </div>
 
-        <!-- Completed Tickets Section -->
         <div class="section">
             <div class="main">
                 <h2 class="section-heading">Completed</h2>
             </div>
             <div class="card">
 
-               
-                <% completedTickets1.forEach(ticket=> { %>
+
+                <% completedTickets.forEach(ticket=> { %>
                     <div class="ticket">
                         <%= ticket.key1 %> - <%= ticket.requestType %><br>
                                 <span id="status_div" class="home-text12">Submitted</span>
-                                <div class="buttondiv" id="btn3 "><button type="button" onclick="showTicketDetails('<%= ticket.key1 %>')">View Details<%console.log(ticket.key1);%></button></div>
+                                <div class="buttondiv" id="btn3 "><button type="button" onclick="showTicketDetails('<%= ticket.id %>','<%= ticket.key1 %>','<%= ticket.requestType %>','<%= ticket.summary %>','<%= ticket.reporter %>','<%= ticket.assignee %>','<%= ticket.urgency%>','<%= ticket.time %>','<%= ticket.status %>')">View Details<%console.log(ticket.key1);%></button></div>
+                                
                     </div>
 
                     <%});%>
@@ -242,39 +273,79 @@
 
     <!-- Script to handle button click and dialog -->
     <script>
-        const ct =completedTickets1;
         
-        function showTicketDetails(ticketKey) {
-        //     var tkey1 =  completedTickets1forEach(ticket=> { 
-        //         alert("success");
-        //          alert(ticket.key1)   
-        //          alert("again");
-        //         });
-
-        //  if(tKey1.key1==ticketKey){
-        //         console.log("Aagyi VAlue");
-        //  }
-
-         var ticket = ct.find(ticket => ticket.key1 === ticketKey);
-            alert(ticket);
-            if (ticket) {
+        function showTicketDetails(id,tK,rT,sM,rP,aS,uR,tM,st) {
+            
+            var id = id;
+            var tK = tK;
+            var rT = rT;
+            var sM = sM;
+            var rP = rP;
+            var aS = aS;
+            var uR = uR;
+            var tM = tM;
+            var st = st;
+                 
+            var pending = st != 1 ? 'selected' : 'disabled' ;
+            var progress = st != 2 ? 'selected' : 'disabled' ;
+            var Complete = st != 0 ? 'selected' : 'disabled' ;
+            // console.log(pending);
+                {
                 var dialogContent = `
-                    <p><strong>Key:</strong> ${ticket.key1}</p>
-                    <p><strong>Request Type:</strong> ${ticket.requestType}</p>
-                    <p><strong>Summary:</strong> ${ticket.summary}</p>
-                    <p><strong>Reporter:</strong> ${ticket.reporter}</p>
-                    <p><strong>Urgency:</strong> ${ticket.urgency}</p>
-                    <p><strong>Time:</strong> ${ticket.time}</p>
-                    <p><strong>Assignee:</strong> ${ticket.assignee}</p>
-                    <!-- Add more ticket details here -->
+                <form action="/update_db" method="post">
+        <div class="row">
+            <input type="hidden" name="id" value="${id}">
+            <div class="col-md-3 form-group">
+                <label for="">Key :</label>
+                <input type="text" class='form-control' name="key1" value="${tK}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Request Type :</label>
+                <input type="text" class='form-control' name="requestType" value="${rT}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Summary :</label>
+                <input type="text" class='form-control' name="summary" value="${sM}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Reporter :</label>
+                <input type="text" class='form-control' name="reporter" value="${rP}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Assignee :</label>
+                <input type="text" class='form-control' name="assignee" value="${aS}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Urgency :</label>
+                <input type="text" class='form-control' name="assignee" value="${uR}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">Time :</label>
+                <input type="text" class='form-control' name="time" value="${tM}" readonly>
+            </div>
+            <div class="col-md-3 form-group">
+                <label for="">For the Next :</label>
+                <select class='form-control' name="status" class="form-select form-select-lg mb-3" aria-label="Large select example">
+                    <option selected>Select the Process</option>
+                    <option value="1" ${pending} >Pending</option>
+                    <option value="2" ${progress} >Progress</option>
+                    <option value="0" ${Complete}>Complete</option>
+                    <option value="3" >Cancel</option>
+                  </select>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Next</button>
+                </div>
+            </div>
+    </form>
                 `;
                 var ticketDetailsDiv = document.getElementById("ticket-details");
                 ticketDetailsDiv.innerHTML = dialogContent;
                 var dialog = document.getElementById("details-dialog");
                 dialog.style.display = "block";
-            } else {
-                console.error('Ticket not found:', ticketKey);
-            }
+            } 
         }
 
         function closeDialog() {

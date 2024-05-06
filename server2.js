@@ -4,6 +4,7 @@ const session = require('express-session');
 const pool = require('./conn.js'); // Assuming conn.js exports the database connection
 const path = require('path');
 const ejs = require('ejs');
+const { Script } = require('vm');
 
 const app = express();
 const port = 3000;
@@ -47,7 +48,38 @@ app.post('/login', (req, res) => {
     });
 });
 
+// app.post('/update_db', (req, res) => {
+//     const {status,id}= req.body;
+ 
+//      const update_sql = 'UPDATE request_ticket SET status= ? WHERE id = ?'; 
+//      const name = "Pending";                               //pending
+//      pool.query(sqlPend,[status,id] ,(err, result) => {
+//          if (err) {
+//              console.error('Database error:', err);
+//              res.status(500).send('Internal Server Error');
+//              return;
+//          }
+//          res.redirect('/admin-page');
+        
+//      });
+//  });
+app.post('/update_db', (req, res) => {
+    const { status, id } = req.body;
+//   const id{id} = req.body;
+    const updateSql = 'UPDATE request_ticket SET status = ? WHERE id = ?';
+    console.log(updateSql);
+    const values = [status, id];
 
+    pool.query(updateSql, values, (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        console.log('Record updated successfully');
+        res.redirect('/admin-page'); // Assuming this is a client-side route
+    });
+});
 app.get('/admin-page', (req, res) => {
     const userId = req.session.userId;
     if (!userId) {
@@ -70,30 +102,40 @@ app.get('/admin-page', (req, res) => {
             if (err) {
                 console.error('Database error:', err);
                 res.status(500).send('Internal Server Error');
+                //res.send(<script>alert(completedTickets);</script>)
+                
                 return;
             }
-
             pool.query(sqlProg, (err, inProgressTickets) => {
                 if (err) {
                     console.error('Database error:', err);
                     res.status(500).send('Internal Server Error');
                     return;
                 }
-                console.log(completedTickets);
-                // res.render('adash4', {
+
+                res.render('adash3', {
+                    pendingTickets: pendingTickets,
+                    completedTickets: completedTickets,
+                    inProgressTickets: inProgressTickets
+                });
+                // res.render('adash3',{
                 //     pendingTickets: pendingTickets,
                 //     completedTickets: completedTickets,
-                //     inProgressTickets: inProgressTickets
+                //     inProgressTickets: inProgressTickets,
                 // });
-                res.render('adash3',{
-                    pendingTickets1: pendingTickets,
-                    completedTickets1: completedTickets,
-                    inProgressTickets1: inProgressTickets,
-                });
             });
         });
     });
 });
+
+
+
+
+app.get('/employee-page', (req, res) => {
+    // res.sendFile(__dirname + '/views/create_issue');
+    res.render('create_issue');
+});
+
 
 // ------------------------------------------------------------------------------------------------------
 app.get('/view-details-pending', (req, res) => {
@@ -173,7 +215,3 @@ app.post('/create-ticket', async (req, res) => {
 });
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
-
-app.get('/employee-page', (req, res) => {
-    res.sendFile(__dirname + '/create_issue.html');
-});
