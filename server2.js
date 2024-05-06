@@ -173,3 +173,7 @@ app.post('/create-ticket', async (req, res) => {
 });
 
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+
+app.get('/employee-page', (req, res) => {
+    res.sendFile(__dirname + '/create_issue.html');
+});
